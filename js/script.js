@@ -5,11 +5,13 @@ const todoList = document.querySelector("#todo-list");
 const editForm = document.querySelector("#edit-form");
 const editInput = document.querySelector("#edit-input");
 const cancelEditBtn = document.querySelector("#cancel-edit-btn");
+let oldInputValue;
 
 // Funções
 const saveTodo = (text) => {
   const todo = document.createElement("div");
   todo.classList.add("todo");
+  // todo.classList.add("done");
 
   const todoTitle = document.createElement("h3");
   todoTitle.innerText = text;
@@ -36,6 +38,26 @@ const saveTodo = (text) => {
   todoInput.focus();
 };
 
+const toggleForms = () => {
+  editForm.classList.toggle("hide");
+  todoForm.classList.toggle("hide");
+  todoList.classList.toggle("hide");
+};
+
+const updateTodo = (text) => {
+  const todos = document.querySelectorAll(".todo");
+
+  todos.forEach((todo) => {
+    let todoTitle = todo.querySelector("h3");
+
+    console.log(todoTitle, text);
+
+    if (todoTitle.innerText === oldInputValue) {
+      todoTitle.innerText = text;
+    }
+  });
+};
+
 // Eventos
 todoForm.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -45,4 +67,49 @@ todoForm.addEventListener("submit", (e) => {
   if (inputValue) {
     saveTodo(inputValue);
   }
+});
+
+document.addEventListener("click", (e) => {
+
+  const targetEl = e.target;
+  const parentEl = targetEl.closest("div");
+  let todoTitle;
+
+  if (parentEl && parentEl.querySelector("h3")) {
+    todoTitle = parentEl.querySelector("h3");
+  }
+
+  if (targetEl.classList.contains("finish-todo")) {
+    parentEl.classList.toggle("done");
+  }
+
+  if (targetEl.classList.contains("remove-todo")) {
+    parentEl.remove();
+  }
+
+  if (targetEl.classList.contains("edit-todo")) 
+    toggleForms();
+    editInput.value = todoTitle.innerText
+    oldInputValue = todoTitle.innerText
+});
+
+cancelEditBtn.addEventListener("click", (e) => {
+
+  e.preventDefault();
+  toggleForms();
+
+});
+
+editForm.addEventListener("submit", (e) => {
+
+  e.preventDefault();
+
+  const editInputValue = editInput.value;
+
+  if (editInputValue) {
+    updateTodo(editInputValue);
+  }
+
+  toggleForms();
+
 });
