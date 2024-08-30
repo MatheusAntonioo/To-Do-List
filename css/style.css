@@ -43,6 +43,7 @@ button {
 
 button:hover {
   background-color: var(--blue);
+  /* background-color: red; */
   color: var(--white);
 }
 button:hover  i {
