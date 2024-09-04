@@ -148,8 +148,8 @@ document.addEventListener("click", (e) => {
 
   if (targetEl.classList.contains("edit-todo")) 
     toggleForms();
-    editInput.value = todoTitle;
-    oldInputValue = todoTitle;
+    editInput.value = todoTitle.innerText;
+    oldInputValue = todoTitle.innerText;
 });
 
 cancelEditBtn.addEventListener("click", (e) => {
